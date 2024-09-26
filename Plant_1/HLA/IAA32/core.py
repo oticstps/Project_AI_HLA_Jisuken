@@ -53,13 +53,13 @@ last_capture_time = 0
 capture_cooldown = 10
 
 while True:
-    time.sleep(0.3)
+    time.sleep(0.1)
     frame = camera_stream.read()
     if frame is None:
         break
     else:
         try:
-            results = model(frame)
+            results = model(frame, conf=0.6)
         except Exception as e:
             print(f"[ERROR] Error during model inference: {e}")
             continue
@@ -89,7 +89,7 @@ while True:
             last_capture_time = current_time
         
         # Annotate the frame with the detection results
-        annotated_frame = results[0].plot(line_width=2, labels=True, conf=True)
+        annotated_frame = results[0].plot(line_width=1, labels=True, conf=True)
         
         # Create a dark blue sidebar on the left side for the 'HLA' count display
         sidebar_width = 500  # Width of the sidebar
